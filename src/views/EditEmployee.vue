@@ -11,29 +11,19 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import axios from "axios";
 import { useRouter, useRoute } from "vue-router";
+import { useEmployeeStore } from "../stores/employee";
 
 const router = useRouter();
 const route = useRoute();
-const id = route.params.id;
+const store = useEmployeeStore();
 
 const name = ref("");
 const position = ref("");
 
-const fetchEmployee = async () => {
-  try {
-    const response = await axios.get(`http://localhost:3000/employees/${id}`);
-    name.value = response.data.name;
-    position.value = response.data.position;
-  } catch (error) {
-    console.error("Error fetching employee:", error);
-  }
-};
-
 const updateEmployee = async () => {
   try {
-    await axios.put(`http://localhost:3000/employees/${id}`, {
+    await store.updateEmployee(route.params.id, {
       name: name.value,
       position: position.value,
     });
@@ -43,7 +33,9 @@ const updateEmployee = async () => {
   }
 };
 
-onMounted(() => {
-  fetchEmployee();
+onMounted(async () => {
+  await store.fetchEmployeeById(route.params.id);
+  name.value = store.selectedEmployee.name;
+  position.value = store.selectedEmployee.position;
 });
 </script>

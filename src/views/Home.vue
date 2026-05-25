@@ -1,29 +1,15 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import axios from "axios";
+import { onMounted } from "vue";
+import { useEmployeeStore } from "../stores/employee";
 
-const employees = ref([]);
+const store = useEmployeeStore();
 
 onMounted(() => {
-  fetchEmployees();
+  store.fetchEmployees();
 });
 
-const fetchEmployees = async () => {
-  try {
-    const response = await axios.get("http://localhost:3000/employees");
-    employees.value = response.data;
-  } catch (error) {
-    console.error("Error fetching employees:", error);
-  }
-};
-
 const deleteEmployee = async (id) => {
-  try {
-    await axios.delete(`http://localhost:3000/employees/${id}`);
-    fetchEmployees(); // Refresh the employee list
-  } catch (error) {
-    console.error("Error deleting employee:", error);
-  }
+  store.deleteEmployee(id);
 };
 </script>
 
@@ -33,7 +19,7 @@ const deleteEmployee = async (id) => {
       <h2>Employee List</h2>
       <router-link to="add"> Add New </router-link>
       <ul>
-        <li v-for="employee in employees" :key="employee.id">
+        <li v-for="employee in store.employees" :key="employee.id">
           {{ employee.name }} - {{ employee.position }}
           <router-link :to="`edit/${employee.id}`"> Edit </router-link>
           <button @click="deleteEmployee(employee.id)">Delete</button>

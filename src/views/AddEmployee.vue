@@ -9,15 +9,17 @@
 
 <script setup>
 import { ref } from "vue";
-import axios from "axios";
 import { useRouter } from "vue-router";
+import { useEmployeeStore } from "../stores/employee";
 
 const name = ref("");
 const position = ref("");
 const router = useRouter();
+const store = useEmployeeStore();
+
 const addEmployee = async () => {
   try {
-    await axios.post("http://localhost:3000/employees", {
+    await store.addEmployee({
       name: name.value,
       position: position.value,
     });

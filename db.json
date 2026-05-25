@@ -20,6 +20,11 @@
       "name": "Tony",
       "position": "Mobster",
       "id": "cni-fkGi0uw"
+    },
+    {
+      "name": "Greast Beast",
+      "position": "Burger man",
+      "id": "e2uxRAaTPYk"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
