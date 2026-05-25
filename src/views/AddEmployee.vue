@@ -1,34 +1,22 @@
 <template>
   <h2>Add New Employee</h2>
-  <form @submit.prevent="addEmployee">
-    <input placeholder="Name" v-model="name" />
-    <input placeholder="Position" v-model="position" />
-    <button type="submit">Add</button>
-  </form>
+  <EmployeeForm @submit="handleSubmit" submit-label="Add" />
 </template>
 
 <script setup>
-import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useEmployeeStore } from "../stores/employee";
+import EmployeeForm from "../components/EmployeeForm.vue";
 
-const name = ref("");
-const position = ref("");
 const router = useRouter();
 const store = useEmployeeStore();
 
-const addEmployee = async () => {
+const handleSubmit = async (formData) => {
   try {
-    await store.addEmployee({
-      name: name.value,
-      position: position.value,
-    });
+    await store.addEmployee(formData);
     router.push("/"); // Redirect to home after adding
   } catch (error) {
     console.error("Error adding employee:", error);
   }
-};
-const handleSubmit = () => {
-  console.log("Form submitted with:", name.value, position.value);
 };
 </script>

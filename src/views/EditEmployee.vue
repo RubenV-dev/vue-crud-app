@@ -1,11 +1,12 @@
 <template>
   <div>
     <h2>Edit Employee</h2>
-    <form @submit.prevent="updateEmployee">
-      <input placeholder="Name" v-model="name" />
-      <input placeholder="Position" v-model="position" />
-      <button type="submit">Update</button>
-    </form>
+    <EmployeeForm
+      v-if="store.selectedEmployee"
+      :initial-data="store.selectedEmployee"
+      @submit="updateEmployee"
+      submit-label="Update"
+    />
   </div>
 </template>
 
@@ -13,20 +14,15 @@
 import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useEmployeeStore } from "../stores/employee";
+import EmployeeForm from "../components/EmployeeForm.vue";
 
 const router = useRouter();
 const route = useRoute();
 const store = useEmployeeStore();
 
-const name = ref("");
-const position = ref("");
-
-const updateEmployee = async () => {
+const updateEmployee = async (formData) => {
   try {
-    await store.updateEmployee(route.params.id, {
-      name: name.value,
-      position: position.value,
-    });
+    await store.updateEmployee(route.params.id, formData);
     router.push("/"); // Redirect to home after updating
   } catch (error) {
     console.error("Error updating employee:", error);
@@ -35,7 +31,5 @@ const updateEmployee = async () => {
 
 onMounted(async () => {
   await store.fetchEmployeeById(route.params.id);
-  name.value = store.selectedEmployee.name;
-  position.value = store.selectedEmployee.position;
 });
 </script>
