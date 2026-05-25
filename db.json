@@ -1,0 +1,26 @@
+{
+  "employees": [
+    {
+      "name": "John Doe",
+      "position": "Software Engineer Manager",
+      "id": "1"
+    },
+    {
+      "id": "2",
+      "name": "Jane Smith",
+      "position": "Product Manager",
+      "department": "Product"
+    },
+    {
+      "name": "Michael",
+      "position": "Chef",
+      "id": "F_SZ761XodE"
+    },
+    {
+      "name": "Tony",
+      "position": "Mobster",
+      "id": "cni-fkGi0uw"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
